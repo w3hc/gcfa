@@ -16,9 +16,7 @@ describe("gCFA", function () {
     const gcfa = await gCFA.deploy(eur.address)
     await gcfa.deployed()
 
-
     return { gcfa, bank, eur, alice, bob }
-
   }
 
   describe("Deployment", function () {
@@ -47,7 +45,6 @@ describe("gCFA", function () {
       expect(await eur.allowance(bank.address, gcfa.address)).to.equal(parseEther('10000'))
       expect(await gcfa.connect(bank).depositFor(bank.address, parseEther('100')))
       expect(await eur.balanceOf(bank.address)).to.equal(parseEther('9900'))
-
     })
 
     it("Should withdraw", async function () {
