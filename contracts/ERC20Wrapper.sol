@@ -71,8 +71,7 @@ abstract contract ERC20Wrapper is ERC20 {
     }
 
     /**
-     * @dev Mint wrapped token to cover any underlyingTokens that would have been transferred by mistake. Internal
-     * function that can be exposed with access control if desired.
+     * @dev Mint wrapped token to cover any underlyingTokens that would have been transferred by mistake.
      */
     function recoverEUR() public virtual returns (uint256) {
         uint256 value = underlying.balanceOf(address(this)) *
@@ -82,6 +81,9 @@ abstract contract ERC20Wrapper is ERC20 {
         return value;
     }
 
+    /**
+     * @dev Burn wrapped token to cover any wrapped token that would have been transferred by mistake.
+     */
     function recoverCFA() public virtual returns (uint256) {
         uint256 value = balanceOf(address(this));
         if (value > 0) {
