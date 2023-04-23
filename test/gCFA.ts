@@ -55,5 +55,28 @@ describe("gCFA", function () {
       expect(await gcfa.connect(bank).withdrawTo(bank.address, parseEther('65500')))
       expect(await eur.balanceOf(bank.address)).to.equal(parseEther('10000'))
     })
+
+    it("Should recover EUR", async function () {
+      const { eur, gcfa, bank } = await loadFixture(deployContractsFixture)
+      expect(await eur.connect(bank).approve(gcfa.address, parseEther('10000')))
+      expect(await gcfa.connect(bank).depositFor(bank.address, parseEther('100')))
+      expect(await eur.allowance(bank.address, gcfa.address)).to.equal(parseEther('9900'))
+      expect(await eur.connect(bank).transfer(gcfa.address, parseEther('100')))
+      expect(await eur.balanceOf(bank.address)).to.equal(parseEther('9800'))
+      expect(await gcfa.recoverEUR())
+      expect(await gcfa.balanceOf(bank.address)).to.equal(parseEther('131000'))
+    })
+
+    it("Should recover CFA", async function () {
+      const { eur, gcfa, bank } = await loadFixture(deployContractsFixture)
+      expect(await eur.connect(bank).approve(gcfa.address, parseEther('10000')))
+      expect(await gcfa.connect(bank).depositFor(bank.address, parseEther('100')))
+      expect(await eur.allowance(bank.address, gcfa.address)).to.equal(parseEther('9900'))
+      expect(await gcfa.connect(bank).transfer(gcfa.address, parseEther('65500')))
+      expect(await gcfa.balanceOf(bank.address)).to.equal(0)
+      expect(await gcfa.recoverCFA())
+      expect(await eur.balanceOf(bank.address)).to.equal(parseEther('10000'))
+      expect(await gcfa.balanceOf(bank.address)).to.equal(parseEther('0'))
+    })
   })
 })
