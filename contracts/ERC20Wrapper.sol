@@ -17,6 +17,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
  */
 abstract contract ERC20Wrapper is ERC20 {
     IERC20 public immutable underlying;
+    address public immutable recoveryAddress;
 
     constructor(
         IERC20 underlyingToken,
@@ -24,6 +25,7 @@ abstract contract ERC20Wrapper is ERC20 {
         string memory symbol_
     ) ERC20(name_, symbol_) {
         underlying = underlyingToken;
+        recoveryAddress = msg.sender;
     }
 
     /**
@@ -66,5 +68,28 @@ abstract contract ERC20Wrapper is ERC20 {
         _burn(account, amountCFA);
         SafeERC20.safeTransfer(underlying, account, amountCFA / 655);
         return true;
+    }
+
+    /**
+     * @dev Mint wrapped token to cover any underlyingTokens that would have been transferred by mistake.
+     */
+    function recoverEUR() public virtual returns (uint256) {
+        uint256 value = underlying.balanceOf(address(this)) *
+            655 -
+            totalSupply();
+        _mint(recoveryAddress, value);
+        return value;
+    }
+
+    /**
+     * @dev Burn wrapped token to cover any wrapped token that would have been transferred by mistake.
+     */
+    function recoverCFA() public virtual returns (uint256) {
+        uint256 value = balanceOf(address(this));
+        if (value > 0) {
+            _burn(address(this), value);
+            SafeERC20.safeTransfer(underlying, recoveryAddress, value / 655);
+        }
+        return value;
     }
 }
