@@ -18,14 +18,18 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 abstract contract ERC20Wrapper is ERC20 {
     IERC20 public immutable underlying;
     address public immutable recoveryAddress;
+    uint256 public immutable rate;
 
     constructor(
         IERC20 underlyingToken,
         string memory name_,
-        string memory symbol_
+        string memory symbol_,
+        address recoveryAddress_,
+        uint256 rate_
     ) ERC20(name_, symbol_) {
         underlying = underlyingToken;
-        recoveryAddress = msg.sender;
+        recoveryAddress = recoveryAddress_;
+        rate = rate_;
     }
 
     /**
@@ -54,7 +58,7 @@ abstract contract ERC20Wrapper is ERC20 {
             address(this),
             amountEUR
         );
-        _mint(account, amountEUR * 655);
+        _mint(account, (amountEUR * rate) / 1000);
         return true;
     }
 
@@ -66,7 +70,7 @@ abstract contract ERC20Wrapper is ERC20 {
         uint256 amountCFA
     ) public virtual returns (bool) {
         _burn(account, amountCFA);
-        SafeERC20.safeTransfer(underlying, account, amountCFA / 655);
+        SafeERC20.safeTransfer(underlying, account, (amountCFA / rate) * 1000);
         return true;
     }
 
@@ -74,8 +78,8 @@ abstract contract ERC20Wrapper is ERC20 {
      * @dev Mint wrapped token to cover any underlyingTokens that would have been transferred by mistake.
      */
     function recoverEUR() public virtual returns (uint256) {
-        uint256 value = underlying.balanceOf(address(this)) *
-            655 -
+        uint256 value = (underlying.balanceOf(address(this)) * rate) /
+            1000 -
             totalSupply();
         _mint(recoveryAddress, value);
         return value;
@@ -88,7 +92,8 @@ abstract contract ERC20Wrapper is ERC20 {
         uint256 value = balanceOf(address(this));
         if (value > 0) {
             _burn(address(this), value);
-            SafeERC20.safeTransfer(underlying, recoveryAddress, value / 655);
+            _mint(recoveryAddress, value);
+            // transferFrom(address(this), recoveryAddress, value); // insufficient allowance
         }
         return value;
     }

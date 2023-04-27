@@ -11,8 +11,10 @@ import "./ERC20Wrapper.sol";
  */
 contract gCFA is ERC20Wrapper {
     constructor(
-        IERC20 wrappedToken
-    ) ERC20Wrapper(wrappedToken, "GoodCFA", "gCFA") {
+        IERC20 wrappedToken,
+        address recoveryAddress,
+        uint256 rate
+    ) ERC20Wrapper(wrappedToken, "Good CFA", "gCFA", recoveryAddress, rate) {
         return;
     }
 }
