@@ -92,8 +92,11 @@ abstract contract ERC20Wrapper is ERC20 {
         uint256 value = balanceOf(address(this));
         if (value > 0) {
             _burn(address(this), value);
-            _mint(recoveryAddress, value);
-            // transferFrom(address(this), recoveryAddress, value); // insufficient allowance
+            SafeERC20.safeTransfer(
+                underlying,
+                recoveryAddress,
+                (value / rate) * 1000
+            );
         }
         return value;
     }

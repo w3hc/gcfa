@@ -93,31 +93,14 @@ describe("gCFA", function () {
       expect(await eur.approve(cfa.address, parseEther('10000')))
       expect(await cfa.depositFor(alice.address, parseEther('100')))
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(parseEther('9900'))
-
-      // console.log("Alice bal:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(alice.address))))
-      // console.log("gCFA bal:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(cfa.address))))
-
       expect(await eur.balanceOf(alice.address)).to.equal(parseEther('9900'))
       expect(await cfa.transfer(cfa.address, parseEther('100')))
       expect(await cfa.balanceOf(alice.address)).to.equal(parseEther('65495.700'))
       expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther('100'))
-
-      // console.log("Alice bal before:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(alice.address))))
-      // console.log("gCFA bal before:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(cfa.address))))
-      // console.log("recovery addr bal before:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(recovery.address))))
-
-      // expect(await cfa.allowance(alice.address, cfa.address)).to.equal(parseEther('0'))
-      // expect(await cfa.approve(cfa.address, parseEther('100')))
-      // expect(await cfa.allowance(alice.address, cfa.address)).to.equal(parseEther('100'))
-
+      expect(await eur.balanceOf(recovery.address)).to.equal(parseEther('0'))
       expect(await cfa.recoverCFA())
-
-      // console.log("Alice bal after:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(alice.address))))
-      // console.log("cfa bal after:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(cfa.address))))
-      // console.log("recovery addr bal after:", ethers.utils.formatEther(ethers.BigNumber.from(await cfa.balanceOf(recovery.address))))
-
       expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther('0'))
-      expect(await cfa.balanceOf(recovery.address)).to.equal(parseEther('100'))
+      expect(await eur.balanceOf(recovery.address)).to.equal(parseEther('0.152449017237410000'))
     })
   })
 })
