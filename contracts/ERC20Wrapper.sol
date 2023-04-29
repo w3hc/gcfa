@@ -92,4 +92,12 @@ abstract contract ERC20Wrapper is ERC20 {
         }
         return value;
     }
+
+    receive() external payable {
+        revert();
+    }
+
+    fallback() external payable {
+        revert();
+    }
 }

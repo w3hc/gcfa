@@ -20,13 +20,30 @@ describe("gCFA", function () {
   }
 
   describe("Deployment", function () {
-    it("Should set the right registrar", async function () {
+    it("Should set the right underlying asset", async function () {
       const { eur, gcfa } = await loadFixture(deployContractsFixture)
       expect(await gcfa.underlying()).to.equal(eur.address)
     })
   })
 
   describe("Interactions", function () {
+
+    it("Should revert when Alice sends ETH to gCFA ", async function () {
+      const { alice, gcfa } = await loadFixture(deployContractsFixture)
+      await expect( alice.sendTransaction({
+        to: gcfa.address,
+        value: ethers.utils.parseEther('0.0001')
+      })).to.be.reverted
+    })
+
+    xit("Should withdraw when Alice sends gCFA to gCFA ", async function () {
+    })
+
+    xit("Should deposit when Alice sends EUR to gCFA ", async function () {
+    })
+
+    xit("Should revert when Alice sends an NFT to gCFA", async function () {
+    })
 
     it("Should mint 10,000 units", async function () {
       const { eur, bank } = await loadFixture(deployContractsFixture)
