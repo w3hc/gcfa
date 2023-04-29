@@ -31,6 +31,8 @@ describe("gCFA", function () {
     it("Should mint 10,000 units", async function () {
       const { eur, bank } = await loadFixture(deployContractsFixture)
       expect(await eur.balanceOf(bank.address)).to.equal(parseEther('10000'))
+      await eur.mint(10000)
+      expect(await eur.balanceOf(bank.address)).to.equal(parseEther('20000'))
     })
 
     it("Should allow", async function () {
