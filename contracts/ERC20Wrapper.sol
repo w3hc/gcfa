@@ -21,13 +21,13 @@ abstract contract ERC20Wrapper is ERC20 {
     uint256 public immutable rate;
 
     constructor(
-        IERC20 underlyingToken,
+        IERC20 underlying_,
         string memory name_,
         string memory symbol_,
         address recoveryAddress_,
         uint256 rate_
     ) ERC20(name_, symbol_) {
-        underlying = underlyingToken;
+        underlying = underlying_;
         recoveryAddress = recoveryAddress_;
         rate = rate_;
     }
