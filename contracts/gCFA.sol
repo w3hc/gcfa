@@ -14,7 +14,7 @@ contract gCFA is ERC20Wrapper {
         IERC20 wrappedToken,
         address recoveryAddress,
         uint256 rate
-    ) ERC20Wrapper(wrappedToken, "Good CFA", "gCFA", recoveryAddress, rate) {
+    ) ERC20Wrapper("Good CFA", "gCFA", wrappedToken, recoveryAddress, rate) {
         return;
     }
 }
