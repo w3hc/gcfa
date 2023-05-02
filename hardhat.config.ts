@@ -1,5 +1,4 @@
 import { HardhatUserConfig } from "hardhat/config";
-// import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-celo";
@@ -15,6 +14,9 @@ const {
   CELO_TESTNET_ENDPOINT_URL, 
   CELO_TESTNET_PRIVATE_KEY, 
   CELO_ETHERSCAN_API_KEY, 
+
+  CELO_MAINNET_ENDPOINT_URL, 
+  CELO_MAINNET_PRIVATE_KEY, 
 
   OPTIMISM_TESTNET_ENDPOINT_URL,
   OPTIMISM_TESTNET_PRIVATE_KEY,
@@ -55,6 +57,10 @@ const config: HardhatUserConfig = {
       url: CELO_TESTNET_ENDPOINT_URL || "",
       accounts: CELO_TESTNET_PRIVATE_KEY !== undefined ? [CELO_TESTNET_PRIVATE_KEY] : [],
     },
+    'celo': {
+      url: CELO_MAINNET_ENDPOINT_URL || "",
+      accounts: CELO_MAINNET_PRIVATE_KEY !== undefined ? [CELO_MAINNET_PRIVATE_KEY] : [],
+    },
     'optimism-goerli': {
       url: OPTIMISM_TESTNET_ENDPOINT_URL || "",
       accounts: OPTIMISM_TESTNET_PRIVATE_KEY !== undefined ? [OPTIMISM_TESTNET_PRIVATE_KEY] : [],
@@ -72,6 +78,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       goerli: GOERLI_ETHERSCAN_API_KEY || "",
       alfajores: CELO_ETHERSCAN_API_KEY || "",
+      celo: CELO_ETHERSCAN_API_KEY || "",
       optimisticGoerli: OPTIMISM_ETHERSCAN_API_KEY || "",
       optimisticEthereum: OPTIMISM_ETHERSCAN_API_KEY || "",
       arbitrumGoerli: ARBITRUM_ETHERSCAN_API_KEY || "",

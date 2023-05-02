@@ -29,6 +29,17 @@ npx hardhat run scripts/clear.ts
 npx hardhat run scripts/deploy.ts --network alfajores
 ```
 
+## Supported networks
+
+- Celo Mainnet
+- Celo Alfajores Testnet
+- Ethereum Goerli Testnet
+
+## cEUR contract address
+
+0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([Celoscan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
+
+
 ## Deployments
 
 - Celo Alfarojes Tesnet ([April 23, 2023](https://alfajores.celoscan.io/tx/0x3447f1911077a856275221819fa4ece62b2f83a717d9f6b9e09ad08ad8622216)): [https://alfajores.celoscan.io/address/0x80fd71c9dfe2998480815bfbd053aa7770439c6b#code](https://alfajores.celoscan.io/address/0x80fd71c9dfe2998480815bfbd053aa7770439c6b#code)
@@ -42,11 +53,3 @@ npx hardhat run scripts/deploy.ts --network alfajores
 ## Support
 
 You can contact me via [Element](https://matrix.to/#/@julienbrg:matrix.org), [Telegram](https://t.me/julienbrg), [Twitter](https://twitter.com/julienbrg), [Discord](https://discord.com/invite/uSxzJp3J76), or [LinkedIn](https://www.linkedin.com/in/julienberanger/).
-
-
-/*
-
-655,9570 F
-1Euros = 655,9570 FCFA
-
-*/
