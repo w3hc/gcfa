@@ -40,9 +40,12 @@ npx hardhat run scripts/deploy.ts --network alfajores
 0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([Celoscan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
 
 
-## Deployments
+## Latest deployment
 
-- Celo Alfarojes Tesnet ([April 23, 2023](https://alfajores.celoscan.io/tx/0x3447f1911077a856275221819fa4ece62b2f83a717d9f6b9e09ad08ad8622216)): [https://alfajores.celoscan.io/address/0x80fd71c9dfe2998480815bfbd053aa7770439c6b#code](https://alfajores.celoscan.io/address/0x80fd71c9dfe2998480815bfbd053aa7770439c6b#code)
+May 5, 2023 deployment to Alfajores: 
+
+- EURMock: https://alfajores.celoscan.io/address/0x4Bc3645dD92c4fE239781040c3594A5cFd088A8F#code 
+- gCFA: https://alfajores.celoscan.io/address/0x51F56223Ce239B74540eF20D232624C095eA7Bce#code 
 
 ## Versions
 
