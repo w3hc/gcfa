@@ -43,8 +43,8 @@ async function main() {
   // deploy CFA
   const GCFA = await ethers.getContractFactory("gCFA");
   const rate = 655957;
-  const [recovery] = await ethers.getSigners();
-  const gcfa = await GCFA.deploy(euroAddress, recovery.address, rate);
+  const recoveryAddress = "0x020b796C418C363Be5517C6fEbFF5C5A9248f763"
+  const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate);
   await gcfa.deployed();
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
 
@@ -54,7 +54,7 @@ async function main() {
     await hre.run("verify:verify", {
       network: network.name,
       address: gcfa.address,
-      constructorArguments: [euroAddress, recovery.address, rate],
+      constructorArguments: [euroAddress, recoveryAddress, rate],
       contract: "contracts/gCFA.sol:gCFA",
     });
     console.log("Etherscan verification done. ✅");
