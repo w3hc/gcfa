@@ -37,7 +37,11 @@ npx hardhat run scripts/deploy.ts --network alfajores
 
 ## cEUR contract address
 
-0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([Celoscan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
+0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([CeloScan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
+
+## EURe contract address
+
+0xcB444e90D8198415266c6a2724b7900fb12FC56E ([GnosisScan](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E), [Coingecko](https://www.coingecko.com/en/coins/monerium-eur-money))
 
 
 ## Latest deployment

@@ -9,35 +9,46 @@ async function main() {
   console.log("\nDeployment in progress...");
 
   let euroAddress;
+  switch (network.name) {
+    case "alfajores": 
+    case "goerli":
+      // deploy EUR
+      const EUR = await ethers.getContractFactory("EURMock");
+      const eur = await EUR.deploy();
+      await eur.deployed();
+      console.log("\nEURMock contract deployed at", msg(eur.address), "✅");
+      const receipt = await ethers.provider.getTransactionReceipt(
+        eur.deployTransaction.hash
+      );
+      console.log("\nBlock number:", msg(receipt.blockNumber));
+      euroAddress = eur.address;
 
-  if (network.name  == "alfajores" || network.name  == "goerli") {
+      try {
+        console.log("\nEURMock contract Etherscan verification in progress...");
+        await eur.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: eur.address,
+          constructorArguments: [],
+          contract: "contracts/EURMock.sol:EURMock",
+        });
+        console.log("Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
+      break;
 
-    // deploy EUR
-    const EUR = await ethers.getContractFactory("EURMock");
-    const eur = await EUR.deploy();
-    await eur.deployed();
-    console.log("\nEURMock contract deployed at", msg(eur.address), "✅");
-    const receipt = await ethers.provider.getTransactionReceipt(
-      eur.deployTransaction.hash
-    );
-    console.log("\nBlock number:", msg(receipt.blockNumber));
-    euroAddress = eur.address;
-
-    try {
-      console.log("\nEURMock contract Etherscan verification in progress...");
-      await eur.deployTransaction.wait(6);
-      await hre.run("verify:verify", {
-        network: network.name,
-        address: eur.address,
-        constructorArguments: [],
-        contract: "contracts/EURMock.sol:EURMock",
-      });
-      console.log("Etherscan verification done. ✅");
-    } catch (error) {
-      console.error(error);
-    }
-  } else {
-    euroAddress = process.env.CEUR_CONTRACT_ADDRESS
+    case "celo":
+      euroAddress = process.env.CEUR_CONTRACT_ADDRESS
+      break;
+    
+    case "gnosis":
+      euroAddress = process.env.EURE_CONTRACT_ADDRESS
+      break;
+  
+    default:
+      console.error("Unsupported network");
+      break;
   }
 
   // deploy CFA
