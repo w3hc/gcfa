@@ -50,7 +50,7 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function depositFor(
         address account,
-        uint256 amountEUR
+        uint8 amountEUR
     ) public virtual returns (bool) {
         SafeERC20.safeTransferFrom(
             underlying,
