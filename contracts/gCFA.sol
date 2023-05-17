@@ -5,9 +5,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./ERC20Wrapper.sol";
 
 /**
- * @dev FuseCFA ERC20 token wrapped from FuseEuro
+ * @dev gCFA ERC20 token wrapped from Euro stablecoin
  *
- * Users can deposit and withdraw FuseEuro and receive a matching number of FuseCFA.
+ * Users can deposit Euro stablecoin and receive a matching number of gCFA.
+ * Users can withdraw gCFA and receive a matching number of Euro stablecoin.
  */
 contract gCFA is ERC20Wrapper {
     constructor(
