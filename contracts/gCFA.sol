@@ -18,4 +18,7 @@ contract gCFA is ERC20Wrapper {
     ) ERC20Wrapper("Good CFA", "gCFA", wrappedToken, recoveryAddress, rate) {
         return;
     }
+    function decimals() public view virtual override returns (uint8) { 
+        return 0;
+    }
 }
