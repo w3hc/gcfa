@@ -18,6 +18,10 @@ const {
   CELO_MAINNET_ENDPOINT_URL, 
   CELO_MAINNET_PRIVATE_KEY, 
 
+  GNOSIS_ETHERSCAN_API_KEY, 
+  GNOSIS_MAINNET_ENDPOINT_URL, 
+  GNOSIS_MAINNET_PRIVATE_KEY, 
+
   OPTIMISM_TESTNET_ENDPOINT_URL,
   OPTIMISM_TESTNET_PRIVATE_KEY,
   OPTIMISM_ETHERSCAN_API_KEY, 
@@ -61,6 +65,10 @@ const config: HardhatUserConfig = {
       url: CELO_MAINNET_ENDPOINT_URL || "",
       accounts: CELO_MAINNET_PRIVATE_KEY !== undefined ? [CELO_MAINNET_PRIVATE_KEY] : [],
     },
+    'gnosis': {
+      url: GNOSIS_MAINNET_ENDPOINT_URL || "",
+      accounts: GNOSIS_MAINNET_PRIVATE_KEY !== undefined ? [GNOSIS_MAINNET_PRIVATE_KEY] : [],
+    },
     'optimism-goerli': {
       url: OPTIMISM_TESTNET_ENDPOINT_URL || "",
       accounts: OPTIMISM_TESTNET_PRIVATE_KEY !== undefined ? [OPTIMISM_TESTNET_PRIVATE_KEY] : [],
@@ -79,6 +87,7 @@ const config: HardhatUserConfig = {
       goerli: GOERLI_ETHERSCAN_API_KEY || "",
       alfajores: CELO_ETHERSCAN_API_KEY || "",
       celo: CELO_ETHERSCAN_API_KEY || "",
+      gnosis: GNOSIS_ETHERSCAN_API_KEY || "",
       optimisticGoerli: OPTIMISM_ETHERSCAN_API_KEY || "",
       optimisticEthereum: OPTIMISM_ETHERSCAN_API_KEY || "",
       arbitrumGoerli: ARBITRUM_ETHERSCAN_API_KEY || "",
