@@ -12,6 +12,7 @@ async function main() {
   switch (network.name) {
     case "alfajores": 
     case "goerli":
+    case "chiado":
       // deploy EUR
       const EUR = await ethers.getContractFactory("EURMock");
       const eur = await EUR.deploy();
@@ -45,7 +46,7 @@ async function main() {
     case "gnosis":
       euroAddress = process.env.EURE_CONTRACT_ADDRESS
       break;
-  
+
     default:
       console.error("Unsupported network");
       break;

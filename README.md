@@ -35,6 +35,7 @@ npx hardhat run scripts/deploy.ts --network alfajores
 - Celo Alfajores Testnet
 - Ethereum Goerli Testnet
 - Gnosis Chain Mainnet
+- Gnosis Chiado Testnet
 
 ## cEUR contract address
 

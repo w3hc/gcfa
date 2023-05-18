@@ -20,7 +20,10 @@ const {
 
   GNOSIS_ETHERSCAN_API_KEY, 
   GNOSIS_MAINNET_ENDPOINT_URL, 
-  GNOSIS_MAINNET_PRIVATE_KEY, 
+  GNOSIS_MAINNET_PRIVATE_KEY,
+
+  GNOSIS_TESTNET_ENDPOINT_URL, 
+  GNOSIS_TESTNET_PRIVATE_KEY, 
 
   OPTIMISM_TESTNET_ENDPOINT_URL,
   OPTIMISM_TESTNET_PRIVATE_KEY,
@@ -68,6 +71,10 @@ const config: HardhatUserConfig = {
     'gnosis': {
       url: GNOSIS_MAINNET_ENDPOINT_URL || "",
       accounts: GNOSIS_MAINNET_PRIVATE_KEY !== undefined ? [GNOSIS_MAINNET_PRIVATE_KEY] : [],
+    },
+    'chiado': {
+      url: GNOSIS_TESTNET_ENDPOINT_URL || "",
+      accounts: GNOSIS_TESTNET_PRIVATE_KEY !== undefined ? [GNOSIS_TESTNET_PRIVATE_KEY] : [],
     },
     'optimism-goerli': {
       url: OPTIMISM_TESTNET_ENDPOINT_URL || "",
