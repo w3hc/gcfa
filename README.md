@@ -48,16 +48,11 @@ npx hardhat run scripts/deploy.ts --network alfajores
 
 ## Latest deployment
 
-May 7, 2023 deployment to Alfajores: 
+Alfajores: 
 
-- EURMock: https://alfajores.celoscan.io/address/0x43E03660DEc265CE99d2AD047f34368954f5446A#code 
-- gCFA: https://alfajores.celoscan.io/address/0xBd267B7ce31B493f6Dec14501ac28c896763C237#code
-- DAO: https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code
-  
-May 5, 2023 deployment to Alfajores: 
-
-- EURMock: https://alfajores.celoscan.io/address/0x4Bc3645dD92c4fE239781040c3594A5cFd088A8F#code 
-- gCFA: https://alfajores.celoscan.io/address/0x51F56223Ce239B74540eF20D232624C095eA7Bce#code 
+- EURMock: https://alfajores.celoscan.io/address/0x6Bd981edF241d252b48aF662A52E9d3cA84cdFae#code 
+- gCFA: https://alfajores.celoscan.io/address/0xEc12e5d24f3488C8cC22381caa1cECe12a5C254f#code
+- DAO: https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code 
 
 ## Versions
 

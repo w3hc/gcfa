@@ -9,10 +9,15 @@ async function main() {
   console.log("\nDeployment in progress...");
 
   let euroAddress;
+  let recoveryAddress;
+  const [recovery] = await ethers.getSigners();
+  recoveryAddress = recovery.address;
   switch (network.name) {
     case "alfajores": 
+    euroAddress = process.env.EURM_ALFAJORES_CONTRACT_ADDRESS;
+    recoveryAddress = process.env.CELO_TESTNET_DAO_ADDRESS;
+    break;
     case "goerli":
-    case "chiado":
       // deploy EUR
       const EUR = await ethers.getContractFactory("EURMock");
       const eur = await EUR.deploy();
@@ -23,7 +28,7 @@ async function main() {
       );
       console.log("\nBlock number:", msg(receipt.blockNumber));
       euroAddress = eur.address;
-
+      
       try {
         console.log("\nEURMock contract Etherscan verification in progress...");
         await eur.deployTransaction.wait(6);
@@ -38,9 +43,11 @@ async function main() {
         console.error(error);
       }
       break;
-
+    case "chiado":
+      euroAddress = process.env.EURM_GNOSIS_CONTRACT_ADDRESS;
+      break;
     case "celo":
-      euroAddress = process.env.CEUR_CONTRACT_ADDRESS
+      euroAddress = process.env.CEUR_CONTRACT_ADDRESS;
       break;
     
     case "gnosis":
@@ -55,11 +62,14 @@ async function main() {
   // deploy CFA
   const GCFA = await ethers.getContractFactory("gCFA");
   const rate = 655957;
-  const recoveryAddress = "0x020b796C418C363Be5517C6fEbFF5C5A9248f763"
   const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate);
   await gcfa.deployed();
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
-
+  switch (network.name) {
+    case "alfajores": 
+    case "celo":
+    case "gnosis":
+    case "goerli":
   try {
     console.log("\ngCFA contract Etherscan verification in progress...");
     await gcfa.deployTransaction.wait(6);
@@ -73,6 +83,7 @@ async function main() {
   } catch (error) {
     console.error(error);
   }
+}
 }
 
 main().catch((error) => {

@@ -75,6 +75,7 @@ const config: HardhatUserConfig = {
     'chiado': {
       url: GNOSIS_TESTNET_ENDPOINT_URL || "",
       accounts: GNOSIS_TESTNET_PRIVATE_KEY !== undefined ? [GNOSIS_TESTNET_PRIVATE_KEY] : [],
+      gasPrice: 1000000000,
     },
     'optimism-goerli': {
       url: OPTIMISM_TESTNET_ENDPOINT_URL || "",
