@@ -70,7 +70,7 @@ abstract contract ERC20Wrapper is ERC20 {
         uint256 amountCFA
     ) public virtual returns (bool) {
         _burn(account, amountCFA);
-        SafeERC20.safeTransfer(underlying, account, (amountCFA / rate) * 1000);
+        SafeERC20.safeTransfer(underlying, account, (amountCFA * 1000) / rate);
         return true;
     }
 

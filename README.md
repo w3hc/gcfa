@@ -34,18 +34,25 @@ npx hardhat run scripts/deploy.ts --network alfajores
 - Celo Mainnet
 - Celo Alfajores Testnet
 - Ethereum Goerli Testnet
+- Gnosis Chain Mainnet
+- Gnosis Chiado Testnet
 
 ## cEUR contract address
 
-0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([Celoscan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
+0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73 ([CeloScan](https://celoscan.io/token/0xd8763cba276a3738e6de85b4b3bf5fded6d6ca73), [Coingecko](https://www.coingecko.com/en/coins/celo-euro))
+
+## EURe contract address
+
+0xcB444e90D8198415266c6a2724b7900fb12FC56E ([GnosisScan](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E), [Coingecko](https://www.coingecko.com/en/coins/monerium-eur-money))
 
 
 ## Latest deployment
 
-May 5, 2023 deployment to Alfajores: 
+Alfajores: 
 
-- EURMock: https://alfajores.celoscan.io/address/0x4Bc3645dD92c4fE239781040c3594A5cFd088A8F#code 
-- gCFA: https://alfajores.celoscan.io/address/0x51F56223Ce239B74540eF20D232624C095eA7Bce#code 
+- EURMock: https://alfajores.celoscan.io/address/0x6Bd981edF241d252b48aF662A52E9d3cA84cdFae#code 
+- gCFA: https://alfajores.celoscan.io/address/0xEc12e5d24f3488C8cC22381caa1cECe12a5C254f#code
+- DAO: https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code 
 
 ## Versions
 
