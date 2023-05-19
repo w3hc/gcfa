@@ -9,8 +9,8 @@ contract EURMock is ERC20 {
         _mint(msg.sender, 10 ** decimals());
     }
 
-    function mint(uint256 amount) public {
-        _mint(msg.sender, amount);
+    function mint() public {
+        _mint(msg.sender, 10 ** decimals());
     }
 
     function decimals() public pure override(ERC20) returns (uint8) {
