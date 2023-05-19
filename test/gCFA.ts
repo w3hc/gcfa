@@ -38,11 +38,11 @@ describe("gCFA", function () {
   });
 
   describe("Interactions", function () {
-    it("Should mint 10,000 units", async function () {
+    it("Should mint 1 unit", async function () {
       const { eur, alice } = await loadFixture(deployContractsFixture);
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("10000"));
-      await eur.mint(10000);
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("20000"));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("1"));
+      await eur.mint();
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("2"));
     });
 
     it("Should approve gCFA contract", async function () {
@@ -54,53 +54,51 @@ describe("gCFA", function () {
     });
 
     it("Should deposit EUR", async function () {
-      const { eur, cfa, alice } = await loadFixture(deployContractsFixture);
+      const { eur, cfa, alice, rate } = await loadFixture(deployContractsFixture);
 
       // deposit
-      expect(await eur.approve(cfa.address, parseEther("10000")));
+      expect(await eur.approve(cfa.address, parseEther("1")));
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("10000")
+        parseEther("1")
       );
-      expect(await cfa.depositFor(alice.address, parseEther("100")));
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("9900"));
+      expect(await cfa.depositFor(alice.address, parseEther("1")));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("0"));
+      expect(await cfa.balanceOf(alice.address)).to.equal(parseEther((rate/1000).toString()));
     });
 
     it("Should withdraw EUR", async function () {
-      const { eur, cfa, alice } = await loadFixture(deployContractsFixture);
+      const { eur, cfa, alice, rate } = await loadFixture(deployContractsFixture);
 
       // deposit
-      expect(await eur.approve(cfa.address, parseEther("10000")));
+      expect(await eur.approve(cfa.address, parseEther("1")));
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("10000")
+        parseEther("1")
       );
-      expect(await cfa.depositFor(alice.address, parseEther("100")));
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("9900"));
+      expect(await cfa.depositFor(alice.address, parseEther("1")));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("0"));
+      expect(await cfa.balanceOf(alice.address)).to.equal(parseEther((rate/1000).toString()));
 
       // withdraw
       const currentBalance = ethers.utils.formatEther(
         ethers.BigNumber.from(await cfa.balanceOf(alice.address))
       );
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("9900")
+        parseEther("0")
       );
       expect(await cfa.withdrawTo(alice.address, parseEther(currentBalance)));
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("10000"));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("1"));
     });
 
     it("Should recover lost EUR", async function () {
       const { eur, cfa, alice, recovery } = await loadFixture(
         deployContractsFixture
       );
-      expect(await eur.approve(cfa.address, parseEther("10000")));
-      expect(await cfa.depositFor(alice.address, parseEther("100")));
-      expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("9900")
-      );
-      expect(await eur.transfer(cfa.address, parseEther("100")));
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("9800"));
+      expect(cfa.recoverEUR()).to.be.revertedWith("Nothing to recover");
+      expect(await eur.transfer(cfa.address, parseEther("1")));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("0"));
       expect(await cfa.recoverEUR());
       expect(await cfa.balanceOf(recovery.address)).to.equal(
-        parseEther("65595.700")
+        parseEther("655.957")
       );
     });
 
@@ -108,23 +106,22 @@ describe("gCFA", function () {
       const { eur, cfa, alice, recovery, rate } = await loadFixture(
         deployContractsFixture
       );
-      expect(await eur.approve(cfa.address, parseEther("10000")));
-      expect(await cfa.depositFor(alice.address, parseEther("100")));
+      expect(cfa.recoverCFA()).to.be.revertedWith("Nothing to recover");
+      expect(eur.approve(cfa.address, parseEther("1")));
+      expect(await cfa.depositFor(alice.address, parseEther("1")));
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("9900")
+        parseEther("0")
       );
-      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("9900"));
-      expect(await cfa.transfer(cfa.address, parseEther("100")));
+      expect(await eur.balanceOf(alice.address)).to.equal(parseEther("0"));
+      expect(await cfa.transfer(cfa.address, parseEther("655.957")));
       expect(await cfa.balanceOf(alice.address)).to.equal(
-        parseEther("65495.700")
+        parseEther("0")
       );
-      expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther("100"));
+      expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther("655.957"));
       expect(await eur.balanceOf(recovery.address)).to.equal(parseEther("0"));
       expect(await cfa.recoverCFA());
       expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther("0"));
-      expect(await eur.balanceOf(recovery.address)).to.equal(
-        parseEther("0.152449017237410000")
-      );
+      expect(await eur.balanceOf(recovery.address)).to.equal(parseEther("1"));
     });
   });
 });

@@ -81,9 +81,9 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function recoverEUR() public virtual returns (uint256) {
         uint256 value = (underlying.balanceOf(address(this)) * rate) /
-            1000 -
-            totalSupply();
-        _mint(recoveryAddress, value);
+            1000;
+        require(value > totalSupply(), "Nothing to recover");
+        _mint(recoveryAddress, value - totalSupply());
         return value;
     }
 
@@ -92,14 +92,13 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function recoverCFA() public virtual returns (uint256) {
         uint256 value = balanceOf(address(this));
-        if (value > 0) {
-            _burn(address(this), value);
-            SafeERC20.safeTransfer(
-                underlying,
-                recoveryAddress,
-                (value / rate) * 1000
-            );
-        }
+        require(value > 0, "Nothing to recover");
+        _burn(address(this), value);
+        SafeERC20.safeTransfer(
+            underlying,
+            recoveryAddress,
+            (value / rate) * 1000
+        );
         return value;
     }
 }
