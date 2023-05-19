@@ -50,9 +50,14 @@ npx hardhat run scripts/deploy.ts --network alfajores
 
 Alfajores: 
 
-- EURMock: https://alfajores.celoscan.io/address/0x6Bd981edF241d252b48aF662A52E9d3cA84cdFae#code 
-- gCFA: https://alfajores.celoscan.io/address/0xEc12e5d24f3488C8cC22381caa1cECe12a5C254f#code
-- DAO: https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code 
+- [EURMock](https://alfajores.celoscan.io/address/0x6Bd981edF241d252b48aF662A52E9d3cA84cdFae#code)
+- [gCFA](https://alfajores.celoscan.io/address/0xEc12e5d24f3488C8cC22381caa1cECe12a5C254f#code)
+- [DAO](https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code)
+
+Chiado: 
+
+- [EURMock](https://blockscout.chiadochain.net/address/0x4bdf99b0e13457a367f4d1ffcefb8cec88f36199)
+- [gCFA](https://blockscout.chiadochain.net/address/0x425F7D52ca97DA275e2218AB15cdDfE58e424Db2)
 
 ## Versions
 
