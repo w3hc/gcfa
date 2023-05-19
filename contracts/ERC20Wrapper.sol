@@ -80,7 +80,7 @@ abstract contract ERC20Wrapper is ERC20 {
     function recoverEUR() public virtual returns (uint256) {
         uint256 value = (underlying.balanceOf(address(this)) * rate) /
             1000;
-        require(value >= totalSupply(), "Nothing to recover");
+        require(value > totalSupply(), "Nothing to recover");
         _mint(recoveryAddress, value - totalSupply());
         return value;
     }

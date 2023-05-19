@@ -93,11 +93,7 @@ describe("gCFA", function () {
       const { eur, cfa, alice, recovery } = await loadFixture(
         deployContractsFixture
       );
-      // expect(await eur.approve(cfa.address, parseEther("1")));
-      // expect(await cfa.depositFor(alice.address, parseEther("1")));
-      // expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-      //   parseEther("0")
-      // );
+      expect(cfa.recoverEUR()).to.be.revertedWith("Nothing to recover");
       expect(await eur.transfer(cfa.address, parseEther("1")));
       expect(await eur.balanceOf(alice.address)).to.equal(parseEther("0"));
       expect(await cfa.recoverEUR());
@@ -110,7 +106,8 @@ describe("gCFA", function () {
       const { eur, cfa, alice, recovery, rate } = await loadFixture(
         deployContractsFixture
       );
-      expect(await eur.approve(cfa.address, parseEther("1")));
+      expect(cfa.recoverCFA()).to.be.revertedWith("Nothing to recover");
+      expect(eur.approve(cfa.address, parseEther("1")));
       expect(await cfa.depositFor(alice.address, parseEther("1")));
       expect(await eur.allowance(alice.address, cfa.address)).to.equal(
         parseEther("0")
