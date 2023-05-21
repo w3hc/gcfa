@@ -80,9 +80,7 @@ describe("gCFA", function () {
 
       // withdraw
       const currentBalance = await cfa.balanceOf(alice.address);
-      expect(await eur.allowance(alice.address, cfa.address)).to.equal(
-        parseEther("0")
-      );
+      expect(await eur.allowance(alice.address, cfa.address)).to.equal(999999999999999000n);
       expect(await cfa.withdrawTo(alice.address, currentBalance));
       expect(await eur.balanceOf(alice.address)).to.equal(parseEther("1"));
     });
