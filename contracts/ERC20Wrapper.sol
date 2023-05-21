@@ -50,8 +50,9 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function depositFor(
         address account,
-        uint256 amountEUR
+        uint16 amountEUR
     ) public virtual returns (bool) {
+        require(amountEUR >= 1000, "Amount is not sufficient to be fair");
         SafeERC20.safeTransferFrom(
             underlying,
             account,
@@ -67,8 +68,9 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function withdrawTo(
         address account,
-        uint256 amountCFA
+        uint32 amountCFA
     ) public virtual returns (bool) {
+        require(amountCFA > rate / 1000, "Amount is not sufficient to be fair");
         _burn(account, amountCFA);
         SafeERC20.safeTransfer(underlying, account, (amountCFA * 1000) / rate);
         return true;
@@ -78,8 +80,7 @@ abstract contract ERC20Wrapper is ERC20 {
      * @dev Mint wrapped token to cover any underlyingTokens that would have been transferred by mistake.
      */
     function recoverEUR() public virtual returns (uint256) {
-        uint256 value = (underlying.balanceOf(address(this)) * rate) /
-            1000;
+        uint256 value = (underlying.balanceOf(address(this)) * rate) / 1000;
         require(value > totalSupply(), "Nothing to recover");
         _mint(recoveryAddress, value - totalSupply());
         return value;
