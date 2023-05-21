@@ -45,6 +45,10 @@ npx hardhat run scripts/deploy.ts --network alfajores
 
 0xcB444e90D8198415266c6a2724b7900fb12FC56E ([GnosisScan](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E), [Coingecko](https://www.coingecko.com/en/coins/monerium-eur-money))
 
+## DAO contracts adrdresses
+
+- Celo Alfajores: [0x020b796c418c363be5517c6febff5c5a9248f763](https://alfajores.celoscan.io/address/0x020b796c418c363be5517c6febff5c5a9248f763#code)
+- Gnosis Chiado: [0x2cdF5cde6d6b47CA9550ba36BBE618C123d41238](https://blockscout.com/gnosis/chiado/address/0x2cdF5cde6d6b47CA9550ba36BBE618C123d41238)
 
 ## Latest deployment
 
