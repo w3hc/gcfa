@@ -45,10 +45,9 @@ async function main() {
       break;
     case "chiado":
       euroAddress = process.env.EURM_CHIADO_CONTRACT_ADDRESS;
-      console.log('process.env.EURM_GNOSIS_CONTRACT_ADDRESS:', euroAddress)
-
+      console.log('process.env.EURM_CHIADO_CONTRACT_ADDRESS:', euroAddress);
       recoveryAddress = process.env.GNOSIS_TESTNET_DAO_ADDRESS;
-      console.log('recovery addr when chiado:', recoveryAddress)
+      console.log('recovery addr when chiado:', recoveryAddress);
       break;
     case "celo":
       euroAddress = process.env.CEUR_CONTRACT_ADDRESS;
