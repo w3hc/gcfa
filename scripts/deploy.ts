@@ -55,7 +55,7 @@ async function main() {
     
     case "gnosis":
       euroAddress = process.env.EURE_CONTRACT_ADDRESS;
-      // recoveryAddress = process.env.GNOSIS_MAINNET_DAO_ADDRESS;
+      recoveryAddress = process.env.GNOSIS_MAINNET_DAO_ADDRESS;
       break;
 
     default:
