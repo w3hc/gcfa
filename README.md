@@ -45,7 +45,6 @@ npx hardhat run scripts/deploy.ts --network alfajores
 
 0xcB444e90D8198415266c6a2724b7900fb12FC56E ([GnosisScan](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E), [Coingecko](https://www.coingecko.com/en/coins/monerium-eur-money))
 
-
 ## Latest deployment
 
 Alfajores: 
@@ -58,6 +57,13 @@ Chiado:
 
 - [EURMock](https://blockscout.chiadochain.net/address/0x4bdf99b0e13457a367f4d1ffcefb8cec88f36199)
 - [gCFA](https://blockscout.chiadochain.net/address/0x425F7D52ca97DA275e2218AB15cdDfE58e424Db2)
+- [DAO](https://blockscout.com/gnosis/chiado/address/0x2cdF5cde6d6b47CA9550ba36BBE618C123d41238)
+
+Gnosis Chain:
+
+- [EURe](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E#code)
+- [gCFA](https://gnosisscan.io/address/)
+- [DAO](https://gnosisscan.io/address/0xb2d6696f7f006e67b1a1eccb264e0e62a8a76f93#code)
 
 ## Versions
 

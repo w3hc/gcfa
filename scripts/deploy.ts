@@ -44,14 +44,18 @@ async function main() {
       }
       break;
     case "chiado":
-      euroAddress = process.env.EURM_GNOSIS_CONTRACT_ADDRESS;
+      euroAddress = process.env.EURM_CHIADO_CONTRACT_ADDRESS;
+      console.log('process.env.EURM_CHIADO_CONTRACT_ADDRESS:', euroAddress);
+      recoveryAddress = process.env.GNOSIS_TESTNET_DAO_ADDRESS;
+      console.log('recovery addr when chiado:', recoveryAddress);
       break;
     case "celo":
       euroAddress = process.env.CEUR_CONTRACT_ADDRESS;
       break;
     
     case "gnosis":
-      euroAddress = process.env.EURE_CONTRACT_ADDRESS
+      euroAddress = process.env.EURE_CONTRACT_ADDRESS;
+      recoveryAddress = process.env.GNOSIS_MAINNET_DAO_ADDRESS;
       break;
 
     default:
@@ -62,6 +66,7 @@ async function main() {
   // deploy CFA
   const GCFA = await ethers.getContractFactory("gCFA");
   const rate = 655957;
+  console.log('recoveryAddress: ', recoveryAddress, "euroAddress", euroAddress)
   const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate);
   await gcfa.deployed();
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
