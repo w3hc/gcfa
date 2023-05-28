@@ -62,7 +62,7 @@ Chiado:
 Gnosis Chain:
 
 - [EURe](https://gnosisscan.io/token/0xcB444e90D8198415266c6a2724b7900fb12FC56E#code)
-- [gCFA](https://gnosisscan.io/address/)
+- [gCFA](https://gnosisscan.io/address/0xC34158a3c039Af254e38cE6Eb97363a5aAF405D1#code)
 - [DAO](https://gnosisscan.io/address/0xb2d6696f7f006e67b1a1eccb264e0e62a8a76f93#code)
 
 ## Versions
