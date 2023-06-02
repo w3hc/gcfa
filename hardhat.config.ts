@@ -16,7 +16,9 @@ const {
   CELO_ETHERSCAN_API_KEY, 
 
   CELO_MAINNET_ENDPOINT_URL, 
-  CELO_MAINNET_PRIVATE_KEY, 
+  CELO_MAINNET_PRIVATE_KEY,
+
+  MANTLE_TESTNET_PRIVATE_KEY,
 
   GNOSIS_ETHERSCAN_API_KEY, 
   GNOSIS_MAINNET_ENDPOINT_URL, 
@@ -89,6 +91,10 @@ const config: HardhatUserConfig = {
       url: ARBITRUM_TESTNET_ENDPOINT_URL || "",
       accounts: ARBITRUM_TESTNET_PRIVATE_KEY !== undefined ? [ARBITRUM_TESTNET_PRIVATE_KEY] : [],
     },
+    'mantle-testnet': {
+      url: "https://rpc.testnet.mantle.xyz/",
+      accounts: MANTLE_TESTNET_PRIVATE_KEY !== undefined ? [MANTLE_TESTNET_PRIVATE_KEY] : [],
+    }
   }, 
   etherscan: {
     apiKey: {

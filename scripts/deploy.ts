@@ -14,9 +14,22 @@ async function main() {
   recoveryAddress = recovery.address;
   switch (network.name) {
     case "alfajores": 
-    euroAddress = process.env.EURM_ALFAJORES_CONTRACT_ADDRESS;
-    recoveryAddress = process.env.CELO_TESTNET_DAO_ADDRESS;
-    break;
+      euroAddress = process.env.EURM_ALFAJORES_CONTRACT_ADDRESS;
+      recoveryAddress = process.env.CELO_TESTNET_DAO_ADDRESS;
+      break;
+    case "mantle-testnet":
+        // deploy EUR
+        const EUR_mantle = await ethers.getContractFactory("EURMock");
+        const eur_mantle = await EUR_mantle.deploy();
+        await eur_mantle.deployed();
+        console.log("\nEURMock contract deployed at", msg(eur_mantle.address), "✅");
+        const receipt_mantle = await ethers.provider.getTransactionReceipt(
+          eur_mantle.deployTransaction.hash
+        );
+        console.log("\nBlock number:", msg(receipt_mantle.blockNumber));
+        euroAddress = eur_mantle.address;
+        recoveryAddress = process.env.MANTLE_TESTNET_DAO_ADDRESS;
+      break;
     case "goerli":
       // deploy EUR
       const EUR = await ethers.getContractFactory("EURMock");
