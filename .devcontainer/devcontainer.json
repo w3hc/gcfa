@@ -3,7 +3,14 @@
 {
 	"name": "Alpine",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:alpine-3.17"
+	"image": "mcr.microsoft.com/devcontainers/base:alpine-3.17",
+
+	// node version is set for 18.15.0 as 18.x would be installing the greater or equal version of node
+	"customizations": {
+		"nodejs": {
+		  "version": "18.15.0"
+		}
+	  }
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
