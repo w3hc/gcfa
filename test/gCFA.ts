@@ -13,8 +13,18 @@ describe("gCFA", function () {
 
     const rate = 655957;
 
+    const IdentityMock = await ethers.getContractFactory("IdentityMock");
+    const identity = await IdentityMock.deploy();
+    await identity.deployed();
+
+    await identity.addWhitelisted(alice.address);
+
+    const NameServiceMock = await ethers.getContractFactory("NameServiceMock");
+    const nameService = await NameServiceMock.deploy(identity.address);
+    await nameService.deployed();
+
     const gCFA = await ethers.getContractFactory("gCFA");
-    const cfa = await gCFA.deploy(eur.address, recovery.address, rate);
+    const cfa = await gCFA.deploy(eur.address, recovery.address, rate, nameService.address);
     await cfa.deployed();
 
     return { cfa, eur, alice, bob, recovery, rate };

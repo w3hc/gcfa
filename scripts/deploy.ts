@@ -49,7 +49,7 @@ async function main() {
           network: network.name,
           address: eur.address,
           constructorArguments: [],
-          contract: "contracts/EURMock.sol:EURMock",
+          contract: "contracts/mocks/EURMock.sol:EURMock",
         });
         console.log("Etherscan verification done. ✅");
       } catch (error) {
@@ -88,20 +88,20 @@ async function main() {
     case "celo":
     case "gnosis":
     case "goerli":
-  try {
-    console.log("\ngCFA contract Etherscan verification in progress...");
-    await gcfa.deployTransaction.wait(6);
-    await hre.run("verify:verify", {
-      network: network.name,
-      address: gcfa.address,
-      constructorArguments: [euroAddress, recoveryAddress, rate],
-      contract: "contracts/gCFA.sol:gCFA",
-    });
-    console.log("Etherscan verification done. ✅");
-  } catch (error) {
-    console.error(error);
+      try {
+        console.log("\ngCFA contract Etherscan verification in progress...");
+        await gcfa.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: gcfa.address,
+          constructorArguments: [euroAddress, recoveryAddress, rate],
+          contract: "contracts/gCFA.sol:gCFA",
+        });
+        console.log("Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
   }
-}
 }
 
 main().catch((error) => {
