@@ -3,7 +3,8 @@
 ## Install
 
 ```
-npm i
+nvm use
+npm ci
 ```
 
 ## Test
