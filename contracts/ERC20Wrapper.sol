@@ -19,6 +19,8 @@ abstract contract ERC20Wrapper is ERC20 {
     IERC20 public immutable underlying;
     address public immutable recoveryAddress;
     uint256 public immutable rate;
+    uint256 public immutable maxEUR;
+    uint256 public immutable maxCFA;
 
     constructor(
         string memory name_,
@@ -30,6 +32,8 @@ abstract contract ERC20Wrapper is ERC20 {
         underlying = underlying_;
         recoveryAddress = recoveryAddress_;
         rate = rate_;
+        maxEUR = 1525 * 10 ** 18;
+        maxCFA = 1000000 * 10 ** 18;
     }
 
     /**
@@ -50,9 +54,9 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function depositFor(
         address account,
-        uint16 amountEUR
+        uint256 amountEUR
     ) public virtual returns (bool) {
-        require(amountEUR >= 1000, "Amount is not sufficient to be fair");
+        require(amountEUR <= maxEUR, "Amount too high");
         SafeERC20.safeTransferFrom(
             underlying,
             account,
@@ -68,9 +72,9 @@ abstract contract ERC20Wrapper is ERC20 {
      */
     function withdrawTo(
         address account,
-        uint32 amountCFA
+        uint256 amountCFA
     ) public virtual returns (bool) {
-        require(amountCFA > rate / 1000, "Amount is not sufficient to be fair");
+        require(amountCFA <= maxCFA, "Amount too high");
         _burn(account, amountCFA);
         SafeERC20.safeTransfer(underlying, account, (amountCFA * 1000) / rate);
         return true;
