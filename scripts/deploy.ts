@@ -10,6 +10,7 @@ async function main() {
 
   let euroAddress;
   let recoveryAddress;
+  let nameService;
   const [recovery] = await ethers.getSigners();
   recoveryAddress = recovery.address;
   switch (network.name) {
@@ -48,6 +49,7 @@ async function main() {
       break;
     case "celo":
       euroAddress = process.env.CEUR_CONTRACT_ADDRESS;
+      nameService = process.env.CELO_NAMESERVICE_ADDRESS
       break;
     case "gnosis":
       euroAddress = process.env.EURE_CONTRACT_ADDRESS
@@ -61,7 +63,7 @@ async function main() {
   // deploy CFA
   const GCFA = await ethers.getContractFactory("gCFA");
   const rate = 655957;
-  const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate);
+  const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate, nameService);
   await gcfa.deployed();
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
   switch (network.name) {
@@ -75,7 +77,7 @@ async function main() {
         await hre.run("verify:verify", {
           network: network.name,
           address: gcfa.address,
-          constructorArguments: [euroAddress, recoveryAddress, rate],
+          constructorArguments: [euroAddress, recoveryAddress, rate, nameService],
           contract: "contracts/gCFA.sol:gCFA",
         });
         console.log("Etherscan verification done. ✅");
