@@ -11,12 +11,71 @@ async function main() {
   let euroAddress;
   let recoveryAddress;
   let nameService;
-  const [recovery] = await ethers.getSigners();
-  recoveryAddress = recovery.address;
+  const [deployer] = await ethers.getSigners();
+  recoveryAddress = deployer.address;
   switch (network.name) {
     case "alfajores": 
+
+      const EUR_alfajores = await ethers.getContractFactory("EURMock");
+      const eur_alfajores = await EUR_alfajores.deploy();
+      await eur_alfajores.deployed();
+      console.log("\nEURMock contract deployed at", msg(eur_alfajores.address), "✅");
+      euroAddress = eur_alfajores.address;
+
+      try {
+        console.log("\nEURMock contract Etherscan verification in progress...");
+        await eur_alfajores.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: euroAddress,
+          constructorArguments: [],
+          contract: "contracts/mocks/EURMock.sol:EURMock",
+        });
+        console.log("NameServiceMock Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
+
+      const IdentityMock = await ethers.getContractFactory("IdentityMock");
+      const identity = await IdentityMock.deploy();
+      await identity.deployed();
+      await identity.addWhitelisted(deployer.address);
+      console.log("identity addr:", identity.address);
+      try {
+        console.log("\nIdentityMock contract Etherscan verification in progress...");
+        await identity.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: identity.address,
+          constructorArguments: [],
+          contract: "contracts/mocks/IdentityMock.sol:IdentityMock",
+        });
+        console.log("IdentityMock Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
+
+      const NameServiceMock = await ethers.getContractFactory("NameServiceMock");
+      const alfajoresNameService = await NameServiceMock.deploy(identity.address);
+      await alfajoresNameService.deployed();
+      console.log("alfajoresNameService addr:", alfajoresNameService.address);
+      try {
+        console.log("\nalfajoresNameService contract Etherscan verification in progress...");
+        await identity.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: alfajoresNameService.address,
+          constructorArguments: [identity.address],
+          contract: "contracts/mocks/NameServiceMock.sol:NameServiceMock",
+        });
+        console.log("NameServiceMock Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
+
       euroAddress = process.env.EURM_ALFAJORES_CONTRACT_ADDRESS;
       recoveryAddress = process.env.CELO_TESTNET_DAO_ADDRESS;
+      nameService = alfajoresNameService.address;
       break;
     case "mantle-testnet":
         // deploy EUR
@@ -81,7 +140,7 @@ async function main() {
   // deploy CFA
   const GCFA = await ethers.getContractFactory("gCFA");
   const rate = 655957;
-  console.log('recoveryAddress: ', recoveryAddress, "euroAddress", euroAddress)
+  console.log('recoveryAddress: ', recoveryAddress, "\neuroAddress", euroAddress, "\nnameService", nameService)
   const gcfa = await GCFA.deploy(euroAddress, recoveryAddress, rate, nameService);
   await gcfa.deployed();
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
