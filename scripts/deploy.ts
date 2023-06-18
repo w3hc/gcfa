@@ -17,19 +17,11 @@ async function main() {
       euroAddress = process.env.EURM_ALFAJORES_CONTRACT_ADDRESS;
       recoveryAddress = process.env.CELO_TESTNET_DAO_ADDRESS;
       break;
-    case "mantle-testnet":
-        // deploy EUR
-        const EUR_mantle = await ethers.getContractFactory("EURMock");
-        const eur_mantle = await EUR_mantle.deploy();
-        await eur_mantle.deployed();
-        console.log("\nEURMock contract deployed at", msg(eur_mantle.address), "✅");
-        const receipt_mantle = await ethers.provider.getTransactionReceipt(
-          eur_mantle.deployTransaction.hash
-        );
-        console.log("\nBlock number:", msg(receipt_mantle.blockNumber));
-        euroAddress = eur_mantle.address;
-        recoveryAddress = process.env.MANTLE_TESTNET_DAO_ADDRESS;
+    case "arthera-testnet":
+      euroAddress = process.env.EURM_ARTHERA_TESTNET_CONTRACT_ADDRESS;
       break;
+    case "mantle-testnet":
+      recoveryAddress = process.env.MANTLE_TESTNET_DAO_ADDRESS;
     case "goerli":
       // deploy EUR
       const EUR = await ethers.getContractFactory("EURMock");
@@ -41,20 +33,6 @@ async function main() {
       );
       console.log("\nBlock number:", msg(receipt.blockNumber));
       euroAddress = eur.address;
-      
-      try {
-        console.log("\nEURMock contract Etherscan verification in progress...");
-        await eur.deployTransaction.wait(6);
-        await hre.run("verify:verify", {
-          network: network.name,
-          address: eur.address,
-          constructorArguments: [],
-          contract: "contracts/EURMock.sol:EURMock",
-        });
-        console.log("Etherscan verification done. ✅");
-      } catch (error) {
-        console.error(error);
-      }
       break;
     case "chiado":
       euroAddress = process.env.EURM_CHIADO_CONTRACT_ADDRESS;
@@ -85,23 +63,35 @@ async function main() {
   console.log("\ngCFA contract deployed at", msg(gcfa.address), "✅");
   switch (network.name) {
     case "alfajores": 
+    case "goerli":
+      try {
+        console.log("\nEURMock contract Etherscan verification in progress...");
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: euroAddress,
+          constructorArguments: [],
+          contract: "contracts/EURMock.sol:EURMock",
+        });
+        console.log("Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
     case "celo":
     case "gnosis":
-    case "goerli":
-  try {
-    console.log("\ngCFA contract Etherscan verification in progress...");
-    await gcfa.deployTransaction.wait(6);
-    await hre.run("verify:verify", {
-      network: network.name,
-      address: gcfa.address,
-      constructorArguments: [euroAddress, recoveryAddress, rate],
-      contract: "contracts/gCFA.sol:gCFA",
-    });
-    console.log("Etherscan verification done. ✅");
-  } catch (error) {
-    console.error(error);
+      try {
+        console.log("\ngCFA contract Etherscan verification in progress...");
+        await gcfa.deployTransaction.wait(6);
+        await hre.run("verify:verify", {
+          network: network.name,
+          address: gcfa.address,
+          constructorArguments: [euroAddress, recoveryAddress, rate],
+          contract: "contracts/gCFA.sol:gCFA",
+        });
+        console.log("Etherscan verification done. ✅");
+      } catch (error) {
+        console.error(error);
+      }
   }
-}
 }
 
 main().catch((error) => {
