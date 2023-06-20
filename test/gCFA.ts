@@ -2,6 +2,7 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { parseEther } from "ethers/lib/utils";
+import { getRandomAddress } from "./helpers";
 
 describe("gCFA", function () {
   async function deployContractsFixture() {
@@ -159,6 +160,24 @@ describe("gCFA", function () {
       expect(await cfa.recoverCFA());
       expect(await cfa.balanceOf(cfa.address)).to.equal(parseEther("0"));
       expect(await eur.balanceOf(recovery.address)).to.equal(1000);
+    });
+
+    it("Should set Name Service for deployer", async function () {
+      const { cfa, recovery } = await loadFixture(deployContractsFixture);
+      const nameServiceBefore = await cfa.nameService();
+      const randomAddress = getRandomAddress();
+      expect(await cfa.connect(recovery).setNameService(randomAddress)).to.not.be.reverted;
+      const nameServiceAfter = await cfa.nameService();
+      expect(nameServiceAfter).to.not.equal(nameServiceBefore);
+    });
+
+    it("Should not set Name Service for not deployer", async function () {
+      const { cfa, alice } = await loadFixture(deployContractsFixture);
+      const nameServiceBefore = await cfa.nameService();
+      const randomAddress = getRandomAddress();
+      expect(cfa.connect(alice).setNameService(randomAddress)).to.be.revertedWith("Requires a community vote");
+      const nameServiceAfter = await cfa.nameService();
+      expect(nameServiceAfter).to.equal(nameServiceBefore);
     });
   });
 });
