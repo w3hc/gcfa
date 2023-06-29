@@ -110,8 +110,8 @@ abstract contract ERC20Wrapper is ERC20 {
 		return value;
 	}
 
-	function setNameService(INameService _nameService) external {
-		require(msg.sender == recoveryAddress, "Requires a community vote");
-		nameService = _nameService;
-	}
+	// function setNameService(INameService _nameService) external {
+	//	require(msg.sender == recoveryAddress, "Requires a community vote");
+	//	nameService = _nameService;
+	//}
 }

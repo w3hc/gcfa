@@ -162,7 +162,7 @@ describe("gCFA", function () {
       expect(await eur.balanceOf(recovery.address)).to.equal(1000);
     });
 
-    it("Should set Name Service for deployer", async function () {
+    xit("Should set Name Service for deployer", async function () {
       const { cfa, recovery } = await loadFixture(deployContractsFixture);
       const nameServiceBefore = await cfa.nameService();
       const randomAddress = getRandomAddress();
@@ -171,7 +171,7 @@ describe("gCFA", function () {
       expect(nameServiceAfter).to.not.equal(nameServiceBefore);
     });
 
-    it("Should not set Name Service for not deployer", async function () {
+    xit("Should not set Name Service for not deployer", async function () {
       const { cfa, alice } = await loadFixture(deployContractsFixture);
       const nameServiceBefore = await cfa.nameService();
       const randomAddress = getRandomAddress();
