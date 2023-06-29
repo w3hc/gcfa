@@ -22,6 +22,12 @@ const {
 
   GNOSIS_ETHERSCAN_API_KEY,
   GNOSIS_MAINNET_ENDPOINT_URL,
+
+  ARTHERA_TESTNET_PRIVATE_KEY,
+  ARTHERA_TESTNET_ENDPOINT_URL,
+
+  GNOSIS_ETHERSCAN_API_KEY, 
+  GNOSIS_MAINNET_ENDPOINT_URL, 
   GNOSIS_MAINNET_PRIVATE_KEY,
 
   GNOSIS_TESTNET_ENDPOINT_URL,
@@ -58,6 +64,10 @@ const config: HardhatUserConfig = {
       chainId: 1337,
       allowUnlimitedContractSize: true
     },
+    'ganache': {
+      url: "http://127.0.0.1:8545",
+      chainId: 1337
+     }
     'goerli': {
       url: GOERLI_TESTNET_ENDPOINT_URL || "",
       accounts: GOERLI_TESTNET_PRIVATE_KEY !== undefined ? [GOERLI_TESTNET_PRIVATE_KEY] : [],
@@ -95,11 +105,12 @@ const config: HardhatUserConfig = {
       url: "https://rpc.testnet.mantle.xyz/",
       accounts: MANTLE_TESTNET_PRIVATE_KEY !== undefined ? [MANTLE_TESTNET_PRIVATE_KEY] : [],
     },
-    ganache: {
-      url: "http://127.0.0.1:8545",
-      chainId: 1337
-    }
-  },
+    'arthera-testnet': {
+      url: ARTHERA_TESTNET_ENDPOINT_URL || "",
+      chainId: 10243,
+      accounts: ARTHERA_TESTNET_PRIVATE_KEY !== undefined ? [ARTHERA_TESTNET_PRIVATE_KEY] : [],
+    },
+  }, 
   etherscan: {
     apiKey: {
       goerli: GOERLI_ETHERSCAN_API_KEY || "",
@@ -109,7 +120,18 @@ const config: HardhatUserConfig = {
       optimisticGoerli: OPTIMISM_ETHERSCAN_API_KEY || "",
       optimisticEthereum: OPTIMISM_ETHERSCAN_API_KEY || "",
       arbitrumGoerli: ARBITRUM_ETHERSCAN_API_KEY || "",
-    }
+      artheraTestnet: "abc",
+    },
+    customChains: [
+      {
+        network: "artheraTestnet",
+        chainId: 10243,
+        urls: {
+          apiURL: "https://explorer-test.arthera.net/api",
+          browserURL: "https://explorer-test.arthera.net/"
+        }
+      }
+    ]
   },
 };
 
