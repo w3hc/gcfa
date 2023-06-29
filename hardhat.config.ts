@@ -20,9 +20,6 @@ const {
 
   MANTLE_TESTNET_PRIVATE_KEY,
 
-  GNOSIS_ETHERSCAN_API_KEY,
-  GNOSIS_MAINNET_ENDPOINT_URL,
-
   ARTHERA_TESTNET_PRIVATE_KEY,
   ARTHERA_TESTNET_ENDPOINT_URL,
 
@@ -67,7 +64,7 @@ const config: HardhatUserConfig = {
     'ganache': {
       url: "http://127.0.0.1:8545",
       chainId: 1337
-     }
+     },
     'goerli': {
       url: GOERLI_TESTNET_ENDPOINT_URL || "",
       accounts: GOERLI_TESTNET_PRIVATE_KEY !== undefined ? [GOERLI_TESTNET_PRIVATE_KEY] : [],
