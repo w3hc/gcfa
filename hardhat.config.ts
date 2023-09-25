@@ -120,7 +120,7 @@ const config: HardhatUserConfig = {
         network: "artheraTestnet",
         chainId: 10243,
         urls: {
-          apiURL: "https://explorer-test.arthera.net/api",
+          apiURL: "https://explorer-test-api.arthera.net/",
           browserURL: "https://explorer-test.arthera.net/"
         }
       }
