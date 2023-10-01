@@ -2,35 +2,9 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { parseEther } from "ethers/lib/utils";
-import { getRandomAddress } from "./helpers";
+import { getRandomAddress, deployContractsFixture, assertDepositSuccessful, assertDepositFails } from "./helpers";
 
 describe("gCFA", function () {
-  async function deployContractsFixture() {
-    const [alice, bob, recovery] = await ethers.getSigners();
-
-    const EURMock = await ethers.getContractFactory("EURMock");
-    const eur = await EURMock.deploy();
-    await eur.deployed();
-
-    const rate = 655957;
-
-    const IdentityMock = await ethers.getContractFactory("IdentityMock");
-    const identity = await IdentityMock.deploy();
-    await identity.deployed();
-
-    await identity.addWhitelisted(alice.address);
-
-    const NameServiceMock = await ethers.getContractFactory("NameServiceMock");
-    const nameService = await NameServiceMock.deploy(identity.address);
-    await nameService.deployed();
-
-    const gCFA = await ethers.getContractFactory("gCFA");
-    const cfa = await gCFA.deploy(eur.address, recovery.address, rate, nameService.address);
-    await cfa.deployed();
-
-    return { cfa, eur, alice, bob, recovery, rate };
-  }
-
   describe("Deployment", function () {
     it("Should set the right underlying asset", async function () {
       const { cfa, eur } = await loadFixture(deployContractsFixture);
@@ -178,6 +152,57 @@ describe("gCFA", function () {
       expect(cfa.connect(alice).setNameService(randomAddress)).to.be.revertedWith("Requires a community vote");
       const nameServiceAfter = await cfa.nameService();
       expect(nameServiceAfter).to.equal(nameServiceBefore);
+    });
+  });
+
+  describe("Whitelist - simulating GoodDollar whitelist mechanism being used", function () {
+    it("Should allow whitelisted account to deposit", async function () {
+      const { cfa, eur, alice, identity } = await loadFixture(deployContractsFixture);
+
+      const isWhitelisted = await identity.isWhitelisted(alice.address);
+      expect(isWhitelisted).to.be.true;
+
+      await assertDepositSuccessful(alice, eur, cfa);
+    });
+
+    it("Should not allow non-whitelisted account to deposit", async function () {
+      const { cfa, eur, bob, identity } = await loadFixture(deployContractsFixture);
+
+      const isWhitelisted = await identity.isWhitelisted(bob.address);
+      expect(isWhitelisted).to.be.false;
+      eur.connect(bob).mint();
+
+      await assertDepositFails(bob, eur, cfa, "UBIScheme: not whitelisted");
+    });
+
+    it("Should not allow removed from whitelist account to deposit", async function () {
+      const { cfa, eur, alice, identity } = await loadFixture(deployContractsFixture);
+
+      let isWhitelisted = await identity.isWhitelisted(alice.address);
+      expect(isWhitelisted).to.be.true;
+
+      await identity.removeWhitelisted(alice.address);
+
+      isWhitelisted = await identity.isWhitelisted(alice.address);
+      expect(isWhitelisted).to.be.false;
+
+      await assertDepositFails(alice, eur, cfa, "UBIScheme: not whitelisted");
+    });
+
+    it("Should allow added to whitelist account to deposit", async function () {
+      const { cfa, eur, bob, identity } = await loadFixture(deployContractsFixture);
+
+      let isWhitelisted = await identity.isWhitelisted(bob.address);
+      expect(isWhitelisted).to.be.false;
+
+      await identity.addWhitelisted(bob.address);
+
+      isWhitelisted = await identity.isWhitelisted(bob.address);
+      expect(isWhitelisted).to.be.true;
+
+      eur.connect(bob).mint();
+
+      await assertDepositSuccessful(bob, eur, cfa);
     });
   });
 });
